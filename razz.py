@@ -29,7 +29,7 @@ date_time = now.strftime("d-%m-%d-%Y-t-%H-%M-%S")
 log_name = f"razzberry_{date_time}_"
 
 #Regex for extracting dataset and profile information 
-dataset_regex = r"([\w$\.+\*]*[\.*].*)"
+dataset_regex = r"^(?:(?:(?:[a-zA-Z#\$@][a-zA-Z0-9#\$@{\-]{0,7}|\*\*?)(?:\.(?:[a-zA-Z#\$@][a-zA-Z0-9#\$@{\-]{0,7}|\*\*?)){0,21}\s*|)(?<=^.{0,44}))$"
 #Regex for extracting classes
 class_regex = r""
 
