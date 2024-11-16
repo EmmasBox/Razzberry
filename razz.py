@@ -1,4 +1,4 @@
-#Razzberry for RACF v4r1
+#Razzberry for RACF v5r1
 #Dependencies: Python >=3.12.x and >=ZOAU 1.3.x
 #Utility to sort through output from IRRUT100 and create reports in various formats
 
@@ -16,6 +16,7 @@ parser = argparse.ArgumentParser(
 )
 
 #Flags and arguments to specify in the command line
+parser.add_argument('-r', '--redundancy', action='store_true')
 parser.add_argument('-o', '--obfuscate', action='store_true')
 parser.add_argument('-m', '--minimalist', action='store_true')
 parser.add_argument("-n", '--noheader', action='store_false')
@@ -62,9 +63,12 @@ sort_alphabetically = sorting_settings["sort_alphabetically"]
 #Removes installation specific data from the file name
 obfuscate_file_names = args.obfuscate or data_settings["obfuscate_file_names"]
 
-#This mode removes as much as information as possible
+#This mode removes as much information as possible
 #Minimalist mode is useful if you are feeding the output to another uitlity
 minimalist_mode = args.minimalist or reports_settings["minimalist_mode"]
+
+#This setting enables the redundancy report that checks for overlap
+redundancy_report = args.redundancy or reports_settings["redundancy_report"]
 
 minimalist_mode_garbage = []
 def add_garbage(identifier: str):
@@ -104,6 +108,17 @@ Report("_AL_report","In access list of","Access list for <header>")
 Report("_SAL_report","In standard access list of","Standard access list for <header>")
 Report("_owner_report","Owner of","<header> is owner of")
 Report("_create_report","Create group of","<header> is creator of")
+
+comparision_list = []
+
+def comparision_add(new_obj: str):
+    found = False
+    for obj in comparision_list:
+        if new_obj == obj:
+            found = True
+            break
+    if found == False:
+        comparision_list.append(obj)
 
 def write_success(file_name: str,extension: str):
     print(f"Created {extension} report: {file_name}.{extension}")
