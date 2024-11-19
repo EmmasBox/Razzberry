@@ -21,6 +21,7 @@ parser.add_argument('-o', '--obfuscate', action='store_true')
 parser.add_argument('-m', '--minimalist', action='store_true')
 parser.add_argument("-n", '--noheader', action='store_false')
 parser.add_argument('-i', '--input')
+parser.add_argument('-t', '--type')
 parser.add_argument('-d', '--destination')
 
 args = parser.parse_args()
@@ -50,6 +51,8 @@ json_enabled = formats_settings["json"]
 
 #Dataset that is to be sorted
 input_dataset = args.input or data_settings["input_dataset"]
+#Dataset type, can either be IRRUT100 or IRRDBU00
+input_type = args.input or data_settings["input_type"]
 
 #Path to export the reports to
 destination = args.destination or data_settings["destination"]
